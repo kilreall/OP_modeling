@@ -76,7 +76,7 @@ N = N0+N1+N_1
 kTN = 1.2*1e-7
 Tr = 362e-9
 
-ax1.plot(t*1e6, N*kTN*1e6, color="red")
+#ax1.plot(t*1e6, N*kTN*1e6, color="red")
 ax1.plot(t*1e6, N*Tr/3*1e6, color="red")
 
 ax1.set_ylabel("Нагрев, мкК", color="red")
