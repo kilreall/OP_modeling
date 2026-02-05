@@ -2,12 +2,19 @@ import numpy as np
 from scipy. integrate import odeint
 import matplotlib.pyplot as plt
 
+plt.rcParams['font.size'] = 22
+plt.rcParams["font.family"] = "Century Gothic"
+plt.rcParams['savefig.dpi'] = 300
+plt.rcParams['lines.linewidth'] = 1.5
 
 def R(x): # F = 1
     gFx = gJS*((1*(1+1)-3/2*(3/2+1)+1/2*(1/2+1))/(2*1*(1+1)))
     Ex = gFx*x*uB*B
     det0_MB = det0_M + Ex/h
     return Y/2*i0_M/(1+i0_M+(2*det0_MB/Y)**2)
+
+def Rl():
+    return Y/2*i0_M/(1+i0_M+(2*det0_M/Y)**2)
 
 def f(G, t):
     return M@G
@@ -25,12 +32,13 @@ uB = 927.4*1e-26 # SI-26 SGS-23
 gJS = 2.00233113 # СО неизвестно, скорее СИ
 gJP = 1.3362 # СО не известна, скорее СИ
 Y = 2*np.pi*6.0666*1e6
-B = 20*1e-6
+B = 20*1e-6*0
 i0_M = 4/5*1
-det0_M = -3*Y
-T = 0.0005/2.5
+det0_M = 0
+T = 0.000008
+s, l = 1, 0
 
-
+# sigma polar contribute
 M0 = np.zeros((3,3))
 
 M0[0,0] = -2*R(1)
@@ -41,7 +49,17 @@ M0[0,2] = 1*R(-1)
 M0[1,2] = 1*R(-1)
 M0[2,2] = -2*R(-1)
 
-M = M0/9
+Ms = M0/9
+
+# linear polar contribute
+b = 1/9 # b в квадрате
+
+L = np.zeros((3,3))
+L[0,1] = b*Rl()
+L[1,1] = -2*b*Rl()
+L[2, 1] = b*Rl()
+
+M = s*Ms + l*L
 
 GP0 = np.array([1/3, 1/3, 1/3])
 N = 1000
@@ -55,12 +73,12 @@ G1 = Sol.transpose()[0]
 G_1 = Sol.transpose()[2]
 
 
-fig, ax = plt.subplots(figsize=(7, 6))
+fig, ax = plt.subplots(figsize=(8, 8))
 ax1 = ax.twinx()
-ax.plot(t*1e6, G0*100, color="blue")
+ax.plot(t*1e6, G0, color="blue")
 
 plt.xlabel("t, [мкc]")
-ax.set_ylabel("Населённость |F=1, mF=0›", color="blue")
+ax.set_ylabel("Population |F=1, mF=0›", color="blue")
 
 
 print(np.sum(Sol[-1]))
@@ -79,14 +97,9 @@ Tr = 362e-9
 #ax1.plot(t*1e6, N*kTN*1e6, color="red")
 ax1.plot(t*1e6, N*Tr/3*1e6, color="red")
 
-ax1.set_ylabel("Нагрев, мкК", color="red")
+ax1.set_ylabel("Heat, μK", color="red")
 ax1.set_ylim(-0.08,1.5)
 
-
-plt.rcParams['font.size'] = 22
-plt.rcParams["font.family"] = "Century Gothic"
-plt.rcParams['savefig.dpi'] = 300
-plt.rcParams['lines.linewidth'] = 1.5
 
 
 plt.show()

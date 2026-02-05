@@ -22,7 +22,7 @@ def R1(x, y): # F = 1
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
     det = (Ex-Ey)/h + d0
-    return Y/2*i/(1+i+(2*det/Y)**2)*0
+    return Y/2*i/(1+i+(2*det/Y)**2)
 
 def f(G, t):
     return M@G
@@ -48,16 +48,16 @@ gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d0 = 0
 i = 1/10
-B = 0.5*1e-4 # Gauss 0.5
+B = 0.5*1e-4*0 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
 
-sp, sl, sn = 1/3, 1/3, 1/3
+sp, sl, sn = 0, 1, 0
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 100
-T = 0.00008
+T = 0.00015
 
 
 
@@ -120,7 +120,7 @@ a12 = 1/2
 P = np.zeros((8,8))
 
 P[0, 1] = b12*b22*R2(1,2)
-P[1, 1] = -b12*(b22+a01+a11)*R2(1, 2)  
+P[1, 1] = -b12*(b22+a12)*R2(1, 2)  
 P[5, 1] =  b12*a12*R2(1, 2)            
 
 P[0, 2] =  b01*b12*R2(0, 1)
@@ -164,7 +164,7 @@ P[7, 7] =  -a10*(b01+b01+a10+a00)*R1(-1, 0)
 N = np.zeros((8,8))
 
 N[0, 1] = b12*b22*R2(-1,-2)
-N[1, 1] = -b12*(b22+a01+a11)*R2(-1, -2)  
+N[1, 1] = -b12*(b22+a12)*R2(-1, -2)  
 N[5, 1] =  b12*a12*R2(-1, -2)             
 
 N[0, 2] =  b01*b12*R2(0, -1)
@@ -201,6 +201,7 @@ N[5, 7] =  a10*a10*R1(1, 0)
 N[6, 7] =  a10*a00*R1(1, 0)
 N[7, 7] =  -a10*(b01+b01+a10+a00)*R1(1, 0)
 
+# тут как бы порядок нарушен, его нужно возвратить
 N1 = np.zeros((8,8))
 N1[0] = N[4]
 N1[1] = N[3]
@@ -210,7 +211,7 @@ N1[4] = N[0]
 N1[5] = N[7]
 N1[6] = N[6]
 N1[7] = N[5]
-N1 = N1.transpose()
+N1 = N1.transpose() # это для удобства
 N2 = np.zeros((8,8))
 N2[0] = N1[4]
 N2[1] = N1[3]
@@ -247,7 +248,7 @@ H_1 = Sol[7]
 
 tmk = t*1e6
 
-fig, ax = plt.subplots(figsize=(9, 8))
+fig, ax = plt.subplots(figsize=(8, 8))
 ax1 = ax.twinx()
 ax.set_xlabel("time, [μs]")
 ax.set_ylabel("Population", color='blue')
@@ -259,7 +260,7 @@ ax.set_ylabel("Population", color='blue')
 # plt.plot(tmk, H1)
 # plt.plot(tmk, H0)
 # plt.plot(tmk, H_1)
-ax.plot(tmk, H_1 + H0 + H1, color="blue")
+ax.plot(tmk, G0, color="blue")
 
 print(np.sum(Sol.transpose()[-1]))
 print(Sol.transpose()[-1][2])
@@ -279,7 +280,7 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
-ax1.set_ylim(-0.03, 1.5)
+#ax1.set_ylim(-0.03, 1.5)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
@@ -289,7 +290,7 @@ ax1.set_ylim(-0.03, 1.5)
 #ax.plot(tmk, K_1)
 
 
-ax1.set_ylabel("Heat, [μk]", color="red")
+ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
 #plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
