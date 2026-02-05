@@ -1,5 +1,5 @@
 import numpy as np
-from scipy. integrate import odeint
+from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 plt.rcParams['font.size'] = 20
@@ -13,7 +13,7 @@ def R2(x, y): # F = 2
     gFy = gJP*(2*(2+1)-3/2*(3/2+1)+3/2*(3/2+1))/(2*2*(2+1)) 
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
-    det = (Ex-Ey)/h
+    det = (Ex-Ey)/h + d0
     return Y/2*i/(1+i+(2*det/Y)**2)
 
 def R1(x, y): # F = 1
@@ -21,7 +21,7 @@ def R1(x, y): # F = 1
     gFy = gJP*(2*(2+1)-3/2*(3/2+1)+3/2*(3/2+1))/(2*2*(2+1)) 
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
-    det = (Ex-Ey)/h
+    det = (Ex-Ey)/h + d0
     return Y/2*i/(1+i+(2*det/Y)**2)*0
 
 def f(G, t):
@@ -29,34 +29,35 @@ def f(G, t):
 
 def Num(P, F, mf, t):
     if F == 2:
-        y = P*(sl*R2(mf, mf)+sp*R2(mf, mf+1)*(int(abs(mf)<2))+sn*R2(mf, mf-1)*(int(abs(mf)<2)))
+        y = P*(sl*R2(mf, mf)+sp*R2(mf, mf+1)*(int(mf<2))+sn*R2(mf, mf-1)*(int(mf>-2)))
         N = np.zeros(len(t))
-        for i in range(1, len(t)):
-            N[i] = N[i-1] + (t[i] - t[i-1]) * (y[i] + y[i-1]) / 2
+        for j in range(1, len(t)):
+            N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
         return N
     elif F == 1:
         y = P*(sl*R1(mf, mf)+sp*R1(mf, mf+1)+sn*R1(mf, mf-1))
         N = np.zeros(len(t))
-        for i in range(1, len(t)):
-            N[i] = N[i-1] + (t[i] - t[i-1]) * (y[i] + y[i-1]) / 2
+        for j in range(1, len(t)):
+            N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
         return N
     
-h = 1e-34
+h = 1.054e-34
 uB = 927.4*1e-26 # SI-26 SGS-23
 gJS = 2.00233113 # СО неизвестно, думаю СИ
 gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
+d0 = 0
 i = 1/10
 B = 0.5*1e-4 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
 
-sp, sl, sn = 1/2, 0, 1/2
+sp, sl, sn = 1/3, 1/3, 1/3
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 100
-T = 0.0001
+T = 0.00008
 
 
 
@@ -246,10 +247,10 @@ H_1 = Sol[7]
 
 tmk = t*1e6
 
-plt.figure(1)
-plt.title("Population components time evolution")
-plt.xlabel("time")
-plt.ylabel("Population")
+fig, ax = plt.subplots(figsize=(9, 8))
+ax1 = ax.twinx()
+ax.set_xlabel("time, [μs]")
+ax.set_ylabel("Population", color='blue')
 # plt.plot(tmk, G0)
 # plt.plot(tmk, G2)
 # plt.plot(tmk, G1)
@@ -258,7 +259,7 @@ plt.ylabel("Population")
 # plt.plot(tmk, H1)
 # plt.plot(tmk, H0)
 # plt.plot(tmk, H_1)
-plt.plot(tmk, H_1 + H0 + H1)
+ax.plot(tmk, H_1 + H0 + H1, color="blue")
 
 print(np.sum(Sol.transpose()[-1]))
 print(Sol.transpose()[-1][2])
@@ -266,18 +267,19 @@ print(Sol.transpose()[-1][2])
 
 N2 = Num(G2, 2, 2, t)
 N1 = Num(G1, 2, 1, t)
+N0 = Num(G0, 2, 0, t)
 N_1 = Num(G_1, 2, -1, t)
 N_2 = Num(G_2, 2, -2, t)
 K1 = Num(H1, 1, 1, t)
 K0 = Num(H1, 1, 0, t)
 K_1 = Num(H1, 1, -1, t)
 
-N = N2+N1+N_1+N_2+K1+K0+K_1
+N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 
-plt.figure(2)
 
 Tr = 362e-9
-plt.plot(tmk, N*Tr/3*1e6)
+ax1.plot(tmk, N*Tr/3*1e6, color='red')
+ax1.set_ylim(-0.03, 1.5)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
@@ -286,16 +288,11 @@ plt.plot(tmk, N*Tr/3*1e6)
 #ax.plot(tmk, K0)
 #ax.plot(tmk, K_1)
 
-plt.title("Нагрев")
-plt.xlabel("t, [мкс]")
-plt.ylabel("Нагрев, [мкК]")
+
+ax1.set_ylabel("Heat, [μk]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
-plt.grid(True)
+#plt.grid(True)
 #plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
 
-plt.rcParams['font.size'] = 20
-plt.rcParams["font.family"] = "Century Gothic"
-plt.rcParams['savefig.dpi'] = 300
-plt.rcParams['lines.linewidth'] = 1.5
 
 plt.show()
