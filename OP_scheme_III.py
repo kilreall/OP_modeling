@@ -8,10 +8,10 @@ plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['lines.linewidth'] = 1.5
 #rcParams["legend.frameon"] = False
 
-def R2(x, y): # F = 2
+def R2(): # F = 2
     return Y/2*i2/(1+i2+(2*det/Y)**2)
 
-def R1(x, y): # F = 1
+def R1(): # F = 1
     return Y/2*i1/(1+i1+(2*det/Y)**2)
 
 def f(G, t):
@@ -123,4 +123,99 @@ N2 = N2_.transpose()
 # F = 1
 
 # linear
+
+L1 = np.zeros((8,8))
+
+L1[0,5] = a11*b21*R1()
+L1[1,5] = a11*b11*R1()
+L1[2,5] = a11*b01*R1()
+L1[5,5] = -a11*(b21+b11+b01+a01)*R1()
+L1[6,5] = a11*a01*R1()
+
+L1[2,7] = a11*b01*R1()
+L1[3,7] = a11*b11*R1()
+L1[4,7] = a11*b21*R1()
+L1[6,7] = a11*a01*R1()
+L1[7,7] = a11*(b01+b11+b21+a01)*R1()
+
+#sigma +
+
+P1 = np.zeros((8,8))
+
+P1[0,6] = a01*b21*R1()
+P1[1,6] = a01*b11*R1()
+P1[2,6] = a01*b01*R1()
+P1[5,6] = a01*a11*R1()
+P1[2,6] = -a01*(b21+b11+b01+a11)*R1()
+
+P1[1,7] = a10*b10*R1()
+P1[2,7] = a10*b00*R1()
+P1[3,7] = a10*b10*R1()
+P1[5,7] = a10*a10*R1()
+P1[1,7] = -a10*(2*b10+b00+a10)*R1()
+
+# sigma -
+
+N1 = np.zeros((8,8))
+
+N1[0] = P1[4]
+N1[1] = P1[3]
+N1[2] = P1[2]
+N1[3] = P1[1]
+N1[4] = P1[0]
+N1[5] = P1[7]
+N1[6] = P1[6]
+N1[7] = P1[5]
+N1 = N2.transpose() # это для удобства
+N1_ = np.zeros((8,8))
+N1_[0] = N1[4]
+N1_[1] = N1[3]
+N1_[2] = N1[2]
+N1_[3] = N1[1]
+N1_[4] = N1[0]
+N1_[5] = N1[7]
+N1_[6] = N1[6]
+N1_[7] = N1[5]
+
+N1 = N1_.transpose()
+
+M = l1*L1 + sp1*P1 + sn1*N1 + l2*L2 + sp2*P2 + sn2*N2
+
+t = np.linspace(0, T, n)
+
+Sol = odeint(f, S0, t)
+Sol = np.array(Sol)
+#print(Sol)
+Sol = Sol.transpose()
+G0 = Sol[2]
+G2 = Sol[0]
+G1 = Sol[1]
+G_1 = Sol[3]
+G_2 = Sol[4]
+H1 = Sol[5]
+H0 = Sol[6]
+H_1 = Sol[7]
+#print(G_0)
+
+tmk = t*1e6
+
+fig, ax = plt.subplots(figsize=(8, 8))
+ax1 = ax.twinx()
+ax.set_xlabel("time, [μs]")
+ax.set_ylabel("Population", color='blue')
+# plt.plot(tmk, G0)
+# plt.plot(tmk, G2)
+# plt.plot(tmk, G1)
+# plt.plot(tmk, G_1)
+# plt.plot(tmk, G_2)
+# plt.plot(tmk, H1)
+# plt.plot(tmk, H0)
+# plt.plot(tmk, H_1)
+ax.plot(tmk, H0, color="blue")
+
+print(np.sum(Sol.transpose()[-1]))
+print(Sol.transpose()[-1][2])
+
+
+plt.show()
 

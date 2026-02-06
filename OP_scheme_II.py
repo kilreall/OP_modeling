@@ -13,29 +13,38 @@ def R2(x, y): # F = 2
     gFy = gJP*(2*(2+1)-3/2*(3/2+1)+3/2*(3/2+1))/(2*2*(2+1)) 
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
-    det = (Ex-Ey)/h + d0
-    return Y/2*i/(1+i+(2*det/Y)**2)
+    det = (Ex-Ey)/h + d02
+    return Y/2*i2/(1+i2+(2*det/Y)**2)
 
 def R1(x, y): # F = 1
     gFx = gJS*(1*(1+1)-3/2*(3/2+1)+1/2*(1/2+1))/(2*1*(1+1))
     gFy = gJP*(2*(2+1)-3/2*(3/2+1)+3/2*(3/2+1))/(2*2*(2+1)) 
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
-    det = (Ex-Ey)/h + d0
-    return Y/2*i/(1+i+(2*det/Y)**2)
+    det = (Ex-Ey)/h + d01
+    return Y/2*i1/(1+i1+(2*det/Y)**2)
 
 def f(G, t):
     return M@G
 
+
+    
+bmfl = [0, 1/12, 1/3]
+bmfp = [1/4, 1/6, 0, 1/6, 1/4]
+bmfn = [1/4, 1/4, 1/6, 0, 1/6]
+amfl = [1/3, 1/4]    
+amfp = [1/4, 1/2, 1/12]
+amfn = [1/4, 1/12, 1/2]
+
 def Num(P, F, mf, t):
     if F == 2:
-        y = P*(sl*R2(mf, mf)+sp*R2(mf, mf+1)*(int(mf<2))+sn*R2(mf, mf-1)*(int(mf>-2)))
+        y = P*(sl*R2(mf, mf)*bmfl[abs(mf)]+sp*R2(mf, mf+1)*bmfp[mf]+sn*R2(mf, mf-1)*bmfn[mf])
         N = np.zeros(len(t))
         for j in range(1, len(t)):
             N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
         return N
     elif F == 1:
-        y = P*(sl*R1(mf, mf)+sp*R1(mf, mf+1)+sn*R1(mf, mf-1))
+        y = P*(sl*R1(mf, mf)*amfl[abs(mf)]+sp*R1(mf, mf+1)*amfp[mf]+sn*R1(mf, mf-1)*amfn[mf])
         N = np.zeros(len(t))
         for j in range(1, len(t)):
             N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
@@ -46,18 +55,20 @@ uB = 927.4*1e-26 # SI-26 SGS-23
 gJS = 2.00233113 # СО неизвестно, думаю СИ
 gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
-d0 = 0
-i = 1/10
-B = 0.5*1e-4*0 # Gauss 0.5
+d01 = 0
+d02 = 2*Y
+i1 = 0.3
+i2 = 0.07
+B = 0.2*1e-4 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
 
-sp, sl, sn = 0, 1, 0
+sp, sl, sn = 0.01, 0.98, 0.01
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 100
-T = 0.00015
+T = 0.01
 
 
 
@@ -294,6 +305,5 @@ ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
 #plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
-
 
 plt.show()

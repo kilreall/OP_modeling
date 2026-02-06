@@ -20,7 +20,7 @@ def f(G, t):
     return M@G
 
 def Num(P, mf, t):
-    y = P*(R(mf)*(abs(mf) != 0))
+    y = 1/3*P*(s*R(mf)*(abs(mf) != 0) + l*R(mf)*int(mf==0))
     N = np.zeros(len(t))
     for i in range(1, len(t)):
         N[i] = N[i-1] + (t[i] - t[i-1]) * (y[i] + y[i-1]) / 2
@@ -35,8 +35,8 @@ Y = 2*np.pi*6.0666*1e6
 B = 20*1e-6*0
 i0_M = 4/5*1
 det0_M = 0
-T = 0.000008
-s, l = 1, 0
+T = 0.00001
+s, l = 0.98, 0.02
 
 # sigma polar contribute
 M0 = np.zeros((3,3))
