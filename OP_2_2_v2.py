@@ -24,7 +24,7 @@ def R1(x, y, p): # F = 1
     Ex = gFx*x*uB*B
     Ey = gFy*y*uB*B
     det = (Ex-Ey)/h + d01
-    return Y/2*I1/(1+I1+(2*det/Y)**2)
+    return Y/2*I1/(1+I1+(2*det/Y)**2)*0
 
 def f(G, t):
     return M@G
@@ -58,20 +58,20 @@ gJS = 2.00233113 # СО неизвестно, думаю СИ
 gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d01 = 0
-d02 = 2*Y
+d02 = 0
 i1 = 0.07
 i2 = 0.07
-B = 0.2*1e-4 # Gauss 0.5
+B = 0.2*1e-4*0 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
 
-sp2, sl2, sn2 = 0.016, 1 - 0.016*2, 0.016
-sp1, sl1, sn1 = 0.016, 1 - 0.016*2, 0.016
+sp2, sl2, sn2 = 1/3, 1/3, 1/3
+sp1, sl1, sn1 = 0, 0, 0
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 1000
-T = 0.01
+T = 0.0001
 
 
 
@@ -295,7 +295,7 @@ ax.set_ylabel("Population", color='blue')
 # plt.plot(tmk, H1)
 # plt.plot(tmk, H0)
 # plt.plot(tmk, H_1)
-ax.plot(tmk, G0, color="blue")
+ax.plot(tmk, H1+H0+H_1, color="blue")
 
 print(np.sum(Sol.transpose()[-1]))
 print(Sol.transpose()[-1][2])
@@ -315,7 +315,7 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
-#ax1.set_ylim(-0.03, 1.5)
+ax1.set_ylim(-0.03, 0.5)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
