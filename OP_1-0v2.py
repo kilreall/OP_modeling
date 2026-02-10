@@ -7,20 +7,19 @@ plt.rcParams["font.family"] = "Century Gothic"
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['lines.linewidth'] = 1.5
 
-def R(x): # F = 1
+def R(x, p): # F = 1
+    I0_m = i0_M*p
     gFx = gJS*((1*(1+1)-3/2*(3/2+1)+1/2*(1/2+1))/(2*1*(1+1)))
     Ex = gFx*x*uB*B
     det0_MB = det0_M + Ex/h
-    return Y/2*i0_M/(1+i0_M+(2*det0_MB/Y)**2)
+    return Y/2*I0_m/(1+I0_m+(2*det0_MB/Y)**2)
 
-def Rl():
-    return Y/2*i0_M/(1+i0_M+(2*det0_M/Y)**2)
 
 def f(G, t):
     return M@G
 
 def Num(P, mf, t):
-    y = 1/3*P*(s*R(mf)*(abs(mf) != 0) + l*R(mf)*int(mf==0))
+    y = 1/3*P*(R(mf, s)*(abs(mf) != 0) + R(mf, l)*int(mf==0))
     N = np.zeros(len(t))
     for i in range(1, len(t)):
         N[i] = N[i-1] + (t[i] - t[i-1]) * (y[i] + y[i-1]) / 2
@@ -36,18 +35,18 @@ B = 20*1e-6*0
 i0_M = 4/5*1
 det0_M = 0
 T = 0.0001
-s, l = 0.97, 0.03
+s, l = 0.985, 0.015
 
 # sigma polar contribute
 M0 = np.zeros((3,3))
 
-M0[0,0] = -2*R(1)
-M0[1,0] = 1*R(1)
-M0[2,0] = 1*R(1)
+M0[0,0] = -2*R(1, s)
+M0[1,0] = 1*R(1, s)
+M0[2,0] = 1*R(1, s)
 
-M0[0,2] = 1*R(-1)
-M0[1,2] = 1*R(-1)
-M0[2,2] = -2*R(-1)
+M0[0,2] = 1*R(-1, s)
+M0[1,2] = 1*R(-1, s)
+M0[2,2] = -2*R(-1, s)
 
 Ms = M0/9
 
@@ -55,14 +54,14 @@ Ms = M0/9
 b = 1/9 # b в квадрате
 
 L = np.zeros((3,3))
-L[0,1] = b*Rl()
-L[1,1] = -2*b*Rl()
-L[2, 1] = b*Rl()
+L[0,1] = b*R(0, l)
+L[1,1] = -2*b*R(0, l)
+L[2, 1] = b*R(0, l)
 
-M = s*Ms + l*L
+M = Ms + L
 
 GP0 = np.array([1/3, 1/3, 1/3])
-N = 1000
+N = 10000
 t = np.linspace(0, T, N)
 
 Sol = odeint(f, GP0, t)

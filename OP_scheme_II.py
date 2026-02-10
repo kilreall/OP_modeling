@@ -40,13 +40,13 @@ amfn = [1/4, 1/12, 1/2]
 
 def Num(P, F, mf, t):
     if F == 2:
-        y = P*(sl2*R2(mf, mf, sl2)*bmfl[abs(mf)]+sp2*R2(mf, mf+1, sp2)*bmfp[mf]+sn2*R2(mf, mf-1, sn2)*bmfn[mf])
+        y = P*(R2(mf, mf, sl2)*bmfl[abs(mf)]+R2(mf, mf+1, sp2)*bmfp[mf]+R2(mf, mf-1, sn2)*bmfn[mf])
         N = np.zeros(len(t))
         for j in range(1, len(t)):
             N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
         return N
     elif F == 1:
-        y = P*(sl1*R1(mf, mf, sl1)*amfl[abs(mf)]+sp1*R1(mf, mf+1, sp1)*amfp[mf]+sn1*R1(mf, mf-1, sn1)*amfn[mf])
+        y = P*(R1(mf, mf, sl1)*amfl[abs(mf)]+R1(mf, mf+1, sp1)*amfp[mf]+R1(mf, mf-1, sn1)*amfn[mf])
         N = np.zeros(len(t))
         for j in range(1, len(t)):
             N[j] = N[j-1] + (t[j] - t[j-1]) * (y[j] + y[j-1]) / 2
@@ -59,7 +59,7 @@ gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d01 = 0
 d02 = 2*Y
-i1 = 0.3
+i1 = 0.07
 i2 = 0.07
 B = 0.2*1e-4 # Gauss 0.5
 
@@ -70,7 +70,7 @@ sp2, sl2, sn2 = 0.018, 1 - 0.018*2, 0.018
 sp1, sl1, sn1 = 0.018, 1 - 0.018*2, 0.018
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
-n = 100
+n = 1000
 T = 0.01
 
 
