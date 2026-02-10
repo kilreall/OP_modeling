@@ -307,8 +307,8 @@ N0 = Num(G0, 2, 0, t)
 N_1 = Num(G_1, 2, -1, t)
 N_2 = Num(G_2, 2, -2, t)
 K1 = Num(H1, 1, 1, t)
-K0 = Num(H1, 1, 0, t)
-K_1 = Num(H1, 1, -1, t)
+K0 = Num(H0, 1, 0, t)
+K_1 = Num(H_1, 1, -1, t)
 
 N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 

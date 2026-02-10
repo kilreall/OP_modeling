@@ -34,8 +34,9 @@ Y = 2*np.pi*6.0666*1e6
 B = 20*1e-6*0
 i0_M = 4/5*1
 det0_M = 0
-T = 0.0001
-s, l = 0.985, 0.015
+T = 0.00001
+l = 0.014
+s = 1 - l
 
 # sigma polar contribute
 M0 = np.zeros((3,3))
