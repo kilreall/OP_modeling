@@ -31,11 +31,11 @@ uB = 927.4*1e-26 # SI-26 SGS-23
 gJS = 2.00233113 # СО неизвестно, скорее СИ
 gJP = 1.3362 # СО не известна, скорее СИ
 Y = 2*np.pi*6.0666*1e6
-B = 20*1e-6*0
-i0_M = 4/5*1
-det0_M = 0
-T = 0.00001
-l = 0.014
+B = 20*1e-6*1
+i0_M = 1/5*1
+det0_M = -3*Y
+T = 0.0009
+l = 0.02
 s = 1 - l
 
 # sigma polar contribute
@@ -72,7 +72,6 @@ G0 = Sol.transpose()[1]
 G1 = Sol.transpose()[0]
 G_1 = Sol.transpose()[2]
 
-
 fig, ax = plt.subplots(figsize=(8, 8))
 ax1 = ax.twinx()
 ax.plot(t*1e6, G0, color="blue")
@@ -97,9 +96,17 @@ Tr = 362e-9
 #ax1.plot(t*1e6, N*kTN*1e6, color="red")
 ax1.plot(t*1e6, N*Tr/3*1e6, color="red")
 
-ax1.set_ylabel("Heat, μK", color="red")
+ax1.set_ylabel("Heat, [μK]", color="red")
 ax1.set_ylim(-0.08,1.5)
+#plt.savefig(r'pictures\OP_1-0_.eps', format='eps')
 
+fig, ax = plt.subplots(figsize=(8, 8))
+KK = 10000
+ax.plot(N[:KK]*Tr/3*1e6, G0[:KK], color="b")
+ax.set_xlabel("Heat, [μK]")
+ax.set_ylabel("Population")
+np.save(r"OP_1-0_detun\T_d_3Y.npy", N*Tr/3*1e6)
+np.save(r"OP_1-0_detun\P_d_3Y.npy", G0)
 
 
 plt.show()
