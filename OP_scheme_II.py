@@ -58,8 +58,8 @@ gJS = 2.00233113 # СО неизвестно, думаю СИ
 gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d01 = 0
-d02 = 0
-i1 = 0.1
+d02 = 5*Y
+i1 = 0.5
 i2 = 0.07
 B = 0.2*1e-4 # Gauss 0.5
 
@@ -72,7 +72,7 @@ sp1, sl1, sn1 = cj, 1 - cj*2, cj
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 10000
-T = 0.00025
+T = 0.05
 
 
 
@@ -297,8 +297,8 @@ ax.set_ylabel("Population", color='blue')
 # plt.plot(tmk, H0)
 # plt.plot(tmk, H_1)
 ax.plot(tmk, G0, color="blue")
-np.save(r"pictures\OPIIt.npy", tmk)
-np.save(r"pictures\OPIIP.npy", G0)
+# np.save(r"pictures\OPIIt.npy", tmk)
+# np.save(r"pictures\OPIIP.npy", G0)
 
 print(np.sum(Sol.transpose()[-1]))
 print(Sol.transpose()[-1][2])
@@ -318,7 +318,7 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
-np.save(r"pictures\OPIITK.npy", N*Tr/3*1e6)
+# np.save(r"pictures\OPIITK.npy", N*Tr/3*1e6)
 #ax1.set_ylim(-0.03, 1.5)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)

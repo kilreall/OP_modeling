@@ -7,6 +7,10 @@ plt.rcParams["font.family"] = "Century Gothic"
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['lines.linewidth'] = 1.5
 
+t22 = np.load(r"pictures\OP22t.npy")
+P22 = np.load(r"pictures\OP22P.npy")
+TK22 = np.load(r"pictures\OP22TK.npy")
+
 t10 = np.load(r"pictures\OP10t.npy")
 P10 = np.load(r"pictures\OP10P.npy")
 TK10 = np.load(r"pictures\OP10TK.npy")
@@ -20,13 +24,38 @@ PIII = np.load(r"pictures\OPIIIP.npy")
 TKIII = np.load(r"pictures\OPIIITK.npy")
 
 
-fig, axex = plt.subplots(1, 3, figsize=(20,6))
-plt.subplots_adjust(wspace=0.6, hspace=0.0)  # Увеличиваем промежутки
+fig, axex = plt.subplots(1, 4, figsize=(28,7))
+plt.subplots_adjust(wspace=0.7, hspace=0.0)  # Увеличиваем промежутки
 blackconst = np.zeros(1000)+1
 blackty = np.linspace(0, 1, 1000)
 
+dx = axex[0]
+dx.set_box_aspect(1)
+dx1 = dx.twinx()
+dx1.set_box_aspect(1)
 
-ax = axex[0]
+dx.plot(t22, P22, color="blue")
+
+
+
+
+
+dx.text(350, 0.92, "P = 1")
+
+dx.set_xlabel("time, [μs]")
+dx.set_ylabel("Population |F=1›", color="blue")
+dx.set_title("(a)                                                          ")
+dx.text(320, 0.25, "Params:\nIp = 1/5\nδω = 0Г")
+
+dx1.plot(t22, TK22, color="red")
+
+dx1.text(270, 0.09, "ΔT = 0.25 μK")
+
+dx1.set_ylabel("Heat, [μK]", color="red")
+dx1.set_ylim(-0.08,1.5)
+
+
+ax = axex[1]
 ax.set_box_aspect(1)
 ax1 = ax.twinx()
 ax1.set_box_aspect(1)
@@ -44,7 +73,7 @@ ax.text(0.42, 0.964, "P = 0.95")
 
 ax.set_xlabel("time, [μs]")
 ax.set_ylabel("Population |F=1, mF=0›", color="blue")
-ax.set_title("(a)                                                          ")
+ax.set_title("(b)                                                          ")
 ax.text(5, 0.25, "Params:\nIp = 1/5\nδω = 0")
 
 ax1.plot(t10, TK10, color="red")
@@ -58,7 +87,7 @@ ax1.text(17.95, 0.256, "ΔT = 0.36 μK")
 ax1.set_ylabel("Heat, [μK]", color="red")
 ax1.set_ylim(-0.08,1.5)
 
-bx = axex[1]
+bx = axex[2]
 bx.set_box_aspect(1)
 bx1 = bx.twinx()
 bx1.set_box_aspect(1)
@@ -77,7 +106,7 @@ bx.text(0.42, 0.885, "P = 0.88")
 
 bx.set_xlabel("time, [μs]")
 bx.set_ylabel("Population |F=2, mF=0›", color="blue")
-bx.set_title("(b)                                                          ")
+bx.set_title("(c)                                                          ")
 bx.text(57, 0.25, "Params:\nIp = 1/10\nδω = 0")
 
 bx1.plot(tII, TKII, color="red")
@@ -91,7 +120,7 @@ bx1.text(150.4, 1.088, "ΔT = 1.2 μK")
 bx1.set_ylabel("Heat, [μK]", color="red")
 bx1.set_ylim(-0.08,1.5)
 
-cx = axex[2]
+cx = axex[3]
 cx.set_box_aspect(1)
 cx1 = cx.twinx()
 cx1.set_box_aspect(1)
@@ -110,7 +139,7 @@ cx.text(0.42, 0.881, "P = 0.87")
 
 cx.set_xlabel("time, [μs]")
 cx.set_ylabel("Population |F=1, mF=0›", color="blue")
-cx.set_title("(c)                                                          ")
+cx.set_title("(d)                                                          ")
 cx.text(43, 0.15, "Params:\nIp = 1/5\nδω = 0")
 
 cx1.plot(tIII, TKIII, color="red")

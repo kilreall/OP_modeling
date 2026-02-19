@@ -35,8 +35,8 @@ gJP = 1.3362 # СО не известна, скорее СИ
 Y = 2*np.pi*6.0666*1e6
 B = 20*1e-6*1
 i0_M = 1/5*1
-det0_M = 0
-T = 0.00003
+det0_M = 5*Y
+T = 0.005
 l = 0.02
 s = 1 - l
 
@@ -77,8 +77,8 @@ G_1 = Sol.transpose()[2]
 fig, ax = plt.subplots(figsize=(8, 8))
 ax1 = ax.twinx()
 ax.plot(t*1e6, G0, color="blue")
-np.save(r"pictures\OP10t.npy", t*1e6)
-np.save(r"pictures\OP10P.npy", G0)
+# np.save(r"pictures\OP10t.npy", t*1e6)
+# np.save(r"pictures\OP10P.npy", G0)
 
 ax.set_xlabel("time, [μs]")
 ax.set_ylabel("Population |F=1, mF=0›", color="blue")
@@ -102,7 +102,7 @@ ax1.plot(t*1e6, N*Tr/3*1e6, color="red")
 
 ax1.set_ylabel("Heat, [μK]", color="red")
 ax1.set_ylim(-0.08,1.5)
-np.save(r"pictures\OP10TK.npy", N*Tr/3*1e6)
+# np.save(r"pictures\OP10TK.npy", N*Tr/3*1e6)
 
 fig, ax = plt.subplots(figsize=(8, 8))
 KK = 10000

@@ -64,7 +64,7 @@ sp, sl, sn = 1/3, 1/3, 1/3
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 100
-T = 0.001
+T = 0.0005
 
 
 
@@ -268,6 +268,9 @@ ax.set_ylabel("Population", color='blue')
 # plt.plot(tmk, H0)
 # plt.plot(tmk, H_1)
 ax.plot(tmk, H_1 + H0 + H1, color="blue")
+# np.save(r"pictures\OP22td2Y.npy", tmk)
+# np.save(r"pictures\OP22Pd2Y.npy", H_1 + H0 + H1)
+
 
 print(np.sum(Sol.transpose()[-1]))
 print(Sol.transpose()[-1][2])
@@ -287,7 +290,8 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
-ax1.set_ylim(-0.03, 1.5)
+# np.save(r"pictures\OP22TKd2Y.npy", N*Tr/3*1e6)
+ax1.set_ylim(-0.07, 1.5)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
