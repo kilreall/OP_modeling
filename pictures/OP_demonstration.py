@@ -25,7 +25,7 @@ TKIII = np.load(r"pictures\OPIIITK.npy")
 
 
 fig, axex = plt.subplots(1, 4, figsize=(28,7))
-plt.subplots_adjust(wspace=0.7, hspace=0.0)  # Увеличиваем промежутки
+plt.subplots_adjust(wspace=0.0, hspace=0.0)  # Увеличиваем промежутки
 blackconst = np.zeros(1000)+1
 blackty = np.linspace(0, 1, 1000)
 
@@ -156,4 +156,5 @@ cx1.set_ylim(-0.08,1.5)
 plt.tight_layout()
 
 plt.savefig(r"pictures\OP_model.eps", format="eps")
+plt.savefig(r"pictures\OP_model.jpg", format="jpg")
 plt.show()
