@@ -50,7 +50,7 @@ det1 = 0
 det2 = 0
 i2 = 1/5
 i1 = 1/5
-B = 0.5*1e-4*0 # Gauss 0.5
+B = 0.2*1e-4*1 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
@@ -270,7 +270,7 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
 np.save(r"pictures\OPIIITK.npy", N*Tr/3*1e6)
-ax1.set_ylim(-0.03, 1.5)
+ax1.set_ylim(-0.15, 3)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
@@ -283,7 +283,7 @@ ax1.set_ylim(-0.03, 1.5)
 ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
-#plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
+plt.savefig('OP_III.svg', dpi=300, bbox_inches='tight')
 
 plt.show()
 

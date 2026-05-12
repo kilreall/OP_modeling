@@ -33,7 +33,7 @@ uB = 927.4*1e-26 # SI-26 SGS-23
 gJS = 2.00233113 # СО неизвестно, скорее СИ
 gJP = 1.3362 # СО не известна, скорее СИ
 Y = 2*np.pi*6.0666*1e6
-B = 20*1e-6*1
+B = 0.2*1e-4*1
 i0_M = 1/5*1
 det0_M = 5*Y
 T = 0.005
@@ -103,6 +103,8 @@ ax1.plot(t*1e6, N*Tr/3*1e6, color="red")
 ax1.set_ylabel("Heat, [μK]", color="red")
 ax1.set_ylim(-0.08,1.5)
 # np.save(r"pictures\OP10TK.npy", N*Tr/3*1e6)
+
+plt.savefig("OP_1-0.svg", dpi=300, bbox_inches='tight')
 
 fig, ax = plt.subplots(figsize=(8, 8))
 KK = 10000

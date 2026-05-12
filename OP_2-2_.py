@@ -55,7 +55,7 @@ gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d0 = 2*Y
 i = 1/10
-B = 0.5*1e-4*0 # Gauss 0.5
+B = 0.2*1e-4*0 # Gauss 0.2
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
@@ -304,7 +304,7 @@ ax1.set_ylim(-0.07, 1.5)
 ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
-#plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
+#plt.savefig('Ph_2_2.svg', dpi=300, bbox_inches='tight')
 
 
 plt.show()

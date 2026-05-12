@@ -58,10 +58,10 @@ gJS = 2.00233113 # СО неизвестно, думаю СИ
 gJP = 1.3362 # СО не известна, думаю СИ
 Y = 2*np.pi*6.0666*1e6 # это значение взято из методички, нужно взять более точное
 d01 = 0
-d02 = 5*Y
+d02 = 0
 i1 = 0.5
 i2 = 0.07
-B = 0.2*1e-4 # Gauss 0.5
+B = 0.2*1e-4 # Gauss 0.2
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
@@ -72,7 +72,7 @@ sp1, sl1, sn1 = cj, 1 - cj*2, cj
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 10000
-T = 0.05
+T = 0.00025
 
 
 
@@ -319,7 +319,7 @@ N = N2+N1+N_1+N_2+K1+K0+K_1+N0
 Tr = 362e-9
 ax1.plot(tmk, N*Tr/3*1e6, color='red')
 # np.save(r"pictures\OPIITK.npy", N*Tr/3*1e6)
-#ax1.set_ylim(-0.03, 1.5)
+ax1.set_ylim(-0.15, 3)
 #ax.plot(tmk, N2)
 #ax.plot(tmk, N1)
 #ax.plot(tmk, N_1)
@@ -332,6 +332,6 @@ ax1.plot(tmk, N*Tr/3*1e6, color='red')
 ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
-#plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
+plt.savefig('OP_II.svg', dpi=300, bbox_inches='tight')
 
 plt.show()

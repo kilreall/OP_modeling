@@ -61,7 +61,7 @@ d01 = 0
 d02 = 0
 i1 = 0.3
 i2 = 0.07
-B = 0.2*1e-4*0 # Gauss 0.5
+B = 0.2*1e-4 # Gauss 0.5
 
 #Djkl = 0
 #R = Y/2*i/(1+i+(2*Djkl/Y)**2)
@@ -71,7 +71,7 @@ sp1, sl1, sn1 = 0, 0, 0
 
 S0 = np.array([1/5, 1/5, 1/5, 1/5, 1/5, 0, 0, 0])
 n = 1000
-T = 0.001
+T = 0.0001
 
 
 
@@ -328,6 +328,6 @@ ax1.set_ylim(-0.03, 0.5)
 ax1.set_ylabel("Heat, [μK]", color="red")
 #ax.legend(loc='center right', fontsize='medium')
 #plt.grid(True)
-#plt.savefig('Ph_2_2.png', dpi=300, bbox_inches='tight')
+plt.savefig('Ph_2_2.svg', dpi=300, bbox_inches='tight')
 
 plt.show()
